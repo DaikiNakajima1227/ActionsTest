@@ -25,6 +25,10 @@ jobs:
             - name: unit test
               run: npm test
             - name: build
+              env:
+                SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+                SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+                SFCC_INSTANCE_URL: ${{ secrets.SFCC_INSTANCE_URL }}
               run: |
                 # npm run build
                 TIME_STAMP=`date '+%Y%m%d%H%M%S'`
