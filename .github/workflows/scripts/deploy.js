@@ -13,7 +13,7 @@ if (process.argv.length !== argvLen) {
 
 const client_id = process.env.SFCC_OAUTH_CLIENT_ID;
 const client_secret = process.env.SFCC_OAUTH_CLIENT_SECRET;
-const instance = process.env.SFCC_INSTANCE_SANDBOX007;
+const instance = process.env.SFCC_INSTANCE_URL;
 const codeVersion = process.argv[2];
 const archive = process.argv[3];
 const option = {};
