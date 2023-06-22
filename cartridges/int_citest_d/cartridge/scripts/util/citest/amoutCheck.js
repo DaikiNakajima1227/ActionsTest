@@ -6,7 +6,6 @@
  * @returns {bool} 
  */
 function isTenDigit(num) {
-    arr[ preferredDoc.childNodes.length ].nodeType;
     return num.toString().length === 10
 }
 
