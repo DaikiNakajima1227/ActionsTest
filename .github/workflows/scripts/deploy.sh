@@ -1,0 +1,1 @@
+npm run ci_deploy $CODE_VERSION $ARCHIVE_PATH.zip

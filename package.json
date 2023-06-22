@@ -44,7 +44,7 @@
         "watch": "sgmf-scripts --watch",
         "watch:static": "sgmf-scripts --watch static",
         "release": "node bin/Makefile release --",
-        "ci_deploy": "node .circleci/scripts/deploy.js"
+        "ci_deploy": "node .github/workflows/scripts/deploy.js"
     },
     "repository": {
         "type": "git",
