@@ -24,3 +24,27 @@ jobs:
                 LC_ALL: "ja_JP.UTF-8"
             - name: unit test
               run: npm test
+            - name: build
+              run: |
+                npm run build
+                ls -l
+                # TIME_STAMP=`date '+%Y%m%d%H%M%S'`
+                # CODE_VERSION="release_${TIME_STAMP}"
+                # PREV_DIR=`pwd`
+                # cd ..
+                # CUR_DIR=`pwd`
+                # ARCHIVE_PATH=${CUR_DIR}/${CODE_VERSION}
+                # cp -r "project" ${ARCHIVE_PATH}
+                # echo `ls -l`
+                # zip -r ${CODE_VERSION} ${CODE_VERSION} 
+                # RETURN_CODE=$?
+                # if [ ${RETURN_CODE} -ne 0 ]; then
+                #     echo "圧縮処理に失敗しました。"
+                #     exit 1
+                # fi
+                # export CODE_VERSION
+                # export ARCHIVE_PATH
+                # cd ${PREV_DIR}
+                # # sh .circleci/scripts/archive.sh
+                # sh .circleci/scripts/deploy.sh
+            
