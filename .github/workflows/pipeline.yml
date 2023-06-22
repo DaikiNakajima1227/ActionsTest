@@ -26,8 +26,7 @@ jobs:
               run: npm test
             - name: build
               run: |
-                npm run build
-                echo `pwd`
+                # npm run build
                 TIME_STAMP=`date '+%Y%m%d%H%M%S'`
                 CODE_VERSION="release_gitactions_${TIME_STAMP}"
                 PREV_DIR=`pwd`
@@ -46,5 +45,5 @@ jobs:
                 export ARCHIVE_PATH
                 cd ${PREV_DIR}
                 # sh .circleci/scripts/archive.sh
-                sh .github/workflows/scripts/deploy.js
+                sh .github/workflows/scripts/deploy.sh
             
