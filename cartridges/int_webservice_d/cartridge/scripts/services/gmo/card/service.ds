@@ -1,0 +1,78 @@
+'use strict';
+importPackage(dw.svc);
+
+const gmoApiErrMsgHelper = require('*/cartridge/scripts/util/gmoApiErrMsgHelper');
+
+/**
+ * @module gmoCardServiceService
+ */
+module.exports = {
+    /**
+     * GMO Save Card.
+     * @param {pdict} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    save: function (pdict) {
+        const SaveCard = require('*/cartridge/scripts/gmo/gmoRegisterCreditCardInfoForMyAccount');
+        // Execute GMO cartridge SaveCard
+        var result = SaveCard.execute(pdict);
+        if (result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+        
+        return result;
+    },
+    /**
+     * GMO Card Inquiry.
+     * @param {pdict} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    search: function (pdict) {
+        const SearchCard = require('*/cartridge/scripts/gmo/gmoGetCreditCardInfo');
+        // Execute GMO cartridge SearchCard
+        var result = SearchCard.execute(pdict);
+        if (result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+
+        if (!pdict.CardList) {
+            return { serverErrors: '該当情報はありません', error: true };
+        }
+        
+        return result;
+    },
+    /**
+     * GMO Card Deletion.
+     * @param {pdict} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    delete: function (pdict) {
+        const DeleteCard = require('*/cartridge/scripts/gmo/gmoDeleteCreditCard');
+        // Execute GMO cartridge DeleteCard
+        var result = DeleteCard.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+        
+        return result;
+    },
+    /**
+     * GMO post-payment card registration.
+     * @param {pdict} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    traded: function (pdict) {
+        const TradedCard = require('*/cartridge/scripts/gmo/gmoRegisterCreditCardInfo');
+        // Execute GMO cartridge TradedCard
+        var result = TradedCard.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+        
+        return result;
+    }
+}

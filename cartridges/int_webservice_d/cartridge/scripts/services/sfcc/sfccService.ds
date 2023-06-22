@@ -1,0 +1,25 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const sfccServiceCallback = require('*/cartridge/scripts/services/sfcc/sfccServiceCallback');
+/**
+ * @module omsCustomerService
+ */
+module.exports = {
+    /**
+     * Register new customer.
+     * @param {OmsRequest} omsRequest Parameters
+     * @param {Object} params Property of buyerEmail is required.
+     * @returns {Object} Result of the service.
+     */
+    get: function (omsRequest, params) {
+        const serviceName = 'sfcc.ip.get';
+        const service = LocalServiceRegistry.createService(serviceName, sfccServiceCallback.get);
+
+        omsRequest.normalizeUrl(service.getURL());
+        omsRequest.generateHeaders();
+        //omsRequest.setData();
+        return service.call(omsRequest);
+    }
+}

@@ -1,0 +1,92 @@
+<isdecorate template="common/layout/checkout">
+    <isset name="amzPayEnabled" value="${require('dw/system/Site').getCurrent().getCustomPreferenceValue("amzPayEnabled")}" scope="page" />
+
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addCss('/css/checkout/checkoutLogin.css');
+        assets.addJs('/js/login.js');
+        if (amzPayEnabled) {
+            assets.addCss('/css/amazonPay.css');
+        }
+    </isscript>
+
+    <iscomment>  Amazon error message </iscomment>
+    <isif condition="${pdict.amzError}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <isprint value="${pdict.errorMessage}" encoding="on" />
+        </div>
+    </isif>
+
+    <isif condition="${pdict.reportingURLs && pdict.reportingURLs.length}">
+        <isinclude template="reporting/reportingUrls" />
+    </isif>
+
+    <h1 class="page-title">
+        ${Resource.msg('title.checkout', 'checkout', null)}
+    </h1>
+    <div class="container">
+        <div class="row d-sm-none">
+            <div class="col-12 cleafix">
+                <span class="total-items-label pull-left">${Resource.msgf('label.number.items.in.cart','cart', null, pdict.details.totalQuantity)}</span>
+                <span class="total-price pull-right">${pdict.details.subTotal}</span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header-custom">${Resource.msg('heading.guest.checkout', 'checkout', null)}</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            ${Resource.msg('msg.guest.checkout1', 'checkout', null)}
+                            ${Resource.msg('msg.guest.checkout2', 'checkout', null)}
+                        </p>
+                        <a
+                            href="${URLUtils.https('Checkout-Begin')}"
+                            class="btn btn-block btn-primary checkout-as-guest">
+                            ${Resource.msg('button.checkout.as.guest', 'checkout', null)}
+                        </a>
+
+                        <iscomment> Amazon Pay Button </iscomment>
+                        <isif condition="${amzPayEnabled}">
+                            <div class="btn-block amazonpay-wrap">
+                                <isinclude template="common/amazonPay/amazonPayButtonCheckout" />
+                            </div>
+                        </isif>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header-custom">${Resource.msg('heading.returning.customers', 'checkout', null)}</h2>
+                    </div>
+                    <div class="card-body">
+                        <isinclude template="account/components/loginForm" />
+                        <isinclude template="account/password/requestPasswordResetModal"/>
+                        <isinclude template="account/components/oauth" />
+
+                        <iscomment> Amazon Sign In Button </iscomment>
+                        <isif condition="${amzPayEnabled}">
+                            <div class="btn-block amazonpay-wrap">
+                                <isinclude template="common/amazonPay/amazonSignInButton" />
+                            </div>
+                        </isif>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header-custom">${Resource.msg('heading.create.account', 'checkout', null)}</h2>
+                    </div>
+                    <div class="card-body">
+                        <a href="${URLUtils.https('Login-Show', 'action', 'register')}" class="btn btn-block btn-outline-primary">
+                            ${Resource.msg('button.create.customer.account', 'checkout', null)}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</isdecorate>

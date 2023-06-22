@@ -1,0 +1,35 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const Request = require('*/cartridge/scripts/services/subsc/Request'); // eslint-disable-line no-unused-vars
+const callback = require('*/cartridge/scripts/services/subsc/subscriptions/callback');
+/**
+ * @module subscriptionsListService
+ */
+module.exports = {
+    /**
+    * List subscriptions by account key
+    */
+    getList: function(request, args) {
+        const serviceName = constants.subsc.subscriptions.list.get;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getList);
+
+        request.normalizeUrl(service.getURL(), args.key);
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    /**
+    * Update subscription custom fields
+    */
+    updateSubsc: function(request, args, payload) {
+        const serviceName = constants.subsc.orders.update;
+        const service = LocalServiceRegistry.createService(serviceName, callback.updateSubsc);
+
+        request.normalizeUrl(service.getURL(), args);
+        request.generateHeaders();
+        request.setData(payload);
+        return service.call(request);
+    }
+}

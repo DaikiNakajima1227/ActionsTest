@@ -1,0 +1,20 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const Request = require('*/cartridge/scripts/services/subsc/Request'); // eslint-disable-line no-unused-vars
+const callback = require('*/cartridge/scripts/services/subsc/order/callback');
+/**
+ * @module subscriptionsListService
+ */
+module.exports = {
+    createOrder: function(request, payload) {
+        const serviceName = constants.subsc.order.create;
+        const service = LocalServiceRegistry.createService(serviceName, callback.createOrder);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(payload);
+        return service.call(request);
+    },
+}

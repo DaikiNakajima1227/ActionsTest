@@ -1,0 +1,16 @@
+{
+	"hooks": [
+		{
+			"name": "app.payment.gmo.card.service",
+			"script": "./gmo/card/service.ds"
+		},
+		{
+			"name": "app.payment.gmo.transaction.service",
+			"script": "./gmo/transaction/service.ds"
+		},
+		{
+			"name": "app.payment.gmo.member.service",
+			"script": "./gmo/member/service.ds"
+		}
+	]
+}

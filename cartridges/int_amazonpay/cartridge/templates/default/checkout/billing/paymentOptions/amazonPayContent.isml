@@ -1,0 +1,14 @@
+<div class="tab-pane active amazon_pay-content active" id="amazon_pay-content" role="tabpanel">
+    <isif condition="${empty(pdict.order.amzPayRedirectUrl)}">
+        <div class="amazon_pay-message">
+            <isprint value="${require('dw/system/Site').getCurrent().getCustomPreferenceValue("amzCustomPaymentMethodMessage")}" encoding="on" />
+        </div>
+    </isif>
+
+    <fieldset class="payment-form-fields">
+        <input type="hidden" class="form-control"
+               name="${pdict.forms.billingForm.paymentMethod.htmlName}"
+               value="AMAZON_PAY"
+        />
+    </fieldset>
+</div>

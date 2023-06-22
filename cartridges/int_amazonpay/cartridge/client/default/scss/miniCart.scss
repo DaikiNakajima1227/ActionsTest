@@ -1,0 +1,9 @@
+.amazonpay-wrap {
+    display: flex;
+    padding: 0 0.65rem 0.5rem;
+    width: 100%;
+
+    [amazonpay-uid] {
+        flex: 1;
+    }
+}

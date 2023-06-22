@@ -1,0 +1,74 @@
+'use strict';
+/**
+ * This module implement the callback to be used when calling the service.
+ * @module omsCustomerServiceCallback
+ */
+
+const preferences = require('dw/system/Site').getCurrent().getPreferences();
+const Logger = require('dw/system/Logger');
+
+function createRequest(svc : HTTPService, args) {
+    svc.setURL(args.url);
+    svc.setRequestMethod(args.httpMethod);
+
+    args.headers.forEach(function (header) {
+        svc.addHeader(header.entry, header.val);
+    });
+
+    return;
+}
+/**
+* Creates a response object from a successful service call.
+* @param {Service} svc Service being executed.
+* @param {Object} response Service-specific response object.
+* @returns {Object} Object to return in the service call's Result.
+*/
+function parseResponse(svc : HTTPService, client: HTTPClient) {
+    let retObj = JSON.parse(client.text);
+    return retObj;
+}
+
+function filterLogMessage(msg) {
+    return msg;
+}
+
+function mockCall(svc : HTTPService, args) {
+    constants.subsc.rateplans.detail;
+    svc.setRequestMethod('POST');
+
+    //svc.addHeader('authorization', key);
+    let mockedResponse = {
+        common_response_info : {
+            result_code: '000',
+            message: '正常終了',
+            format_error: ''
+        },
+        login_info: {
+            guid: '8C2EB1C0-13SD-XXXXXXXXXXXXXXXXXX'
+        }
+    };
+    return {
+        statusCode: 200,
+        statusMessage: "Success",
+        text: JSON.stringify(mockedResponse)
+    };
+}
+
+module.exports = {
+    /**
+     * Register new enquiry.
+     */
+    getDetail: {
+        createRequest: createRequest,
+        parseResponse: parseResponse,
+        filterLogMessage: filterLogMessage,
+        mockCall: mockCall,
+    },
+    getCharge: {
+        createRequest: createRequest,
+        parseResponse: parseResponse,
+        filterLogMessage: filterLogMessage,
+        mockCall: mockCall,
+    },
+    
+};

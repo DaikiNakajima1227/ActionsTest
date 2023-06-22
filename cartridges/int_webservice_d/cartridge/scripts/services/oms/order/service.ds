@@ -1,0 +1,80 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const Request = require('*/cartridge/scripts/services/oms/Request'); // eslint-disable-line no-unused-vars
+const callback = require('*/cartridge/scripts/services/oms/order/callback');
+
+/**
+ * @module omsCustomerService
+ */
+module.exports = {
+    /**
+     * Retrieve a customer.
+     * @param {Request} request Parameters
+     * @param {Object} args data.
+     * @returns {Object} Result of the service.
+     */
+    registerOrder: function (request, args) {
+        const serviceName = constants.oms.order.register;
+        const service = LocalServiceRegistry.createService(serviceName, callback.registerOrder);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    validateOrder: function (request, args) {
+        const serviceName = constants.oms.order.validate;
+        const service = LocalServiceRegistry.createService(serviceName, callback.validateOrder);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    getOrderAmount: function (request, args) {
+        const serviceName = constants.oms.order.amount;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getOrderAmount);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    getOrderHistoryList: function (request, args) {
+        const serviceName = constants.oms.order.history.list;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getOrderHistoryList);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    getOrderHistoryDetail: function (request, args) {
+        const serviceName = constants.oms.order.history.detail;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getOrderHistoryDetail);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    getOrderDeliveryDate: function (request) {
+        const serviceName = constants.oms.order.deliverydate.get;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getOrderDeliveryDate);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        return service.call(request);
+    },
+    getOrderNextDeliveryDate: function (request, args) {
+        const serviceName = constants.oms.order.nextdeliverydate.get;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getOrderNextDeliveryDate);
+
+        request.normalizeUrl(service.getURL(), args);
+        request.generateHeaders();
+        return service.call(request);
+    },
+
+}

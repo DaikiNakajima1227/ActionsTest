@@ -1,0 +1,55 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const Request = require('*/cartridge/scripts/services/oms/Request'); // eslint-disable-line no-unused-vars
+const callback = require('*/cartridge/scripts/services/oms/enquiry/callback');
+
+/**
+ * @module omsCustomerService
+ */
+module.exports = {
+    /**
+     * Retrieve a customer.
+     * @param {Request} request Parameters
+     * @param {Object} args data.
+     * @returns {Object} Result of the service.
+     */
+    registerEnquiry: function (request, args) {
+        const serviceName = constants.oms.enquiry.register;
+        const service = LocalServiceRegistry.createService(serviceName, callback.registerEnquiry);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    listEnquiry: function (request, args) {
+        const serviceName = constants.oms.enquiry.list;
+        const service = LocalServiceRegistry.createService(serviceName, callback.listEnquiry);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    appendEnquiry: function (request, args) {
+        const serviceName = constants.oms.enquiry.append;
+        const service = LocalServiceRegistry.createService(serviceName, callback.appendEnquiry);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+    getEnquiry: function (request, args) {
+        const serviceName = constants.oms.enquiry.history.get;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getEnquiry);
+
+        request.normalizeUrl(service.getURL());
+        request.generateHeaders();
+        request.setData(args);
+        return service.call(request);
+    },
+
+}

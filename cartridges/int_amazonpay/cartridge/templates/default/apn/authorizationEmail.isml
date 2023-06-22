@@ -1,0 +1,102 @@
+<body>
+
+    <table style="font-family:Amazon Ember Regular,HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif; background-color: #333E48; width: 100%;">
+        <tbody>
+            <tr>
+                <td style="padding: 35px 20px 60px 20px;">
+                    <table width="595px" bgcolor="#FFFFFF" cellspacing="0" cellspadding="0" border="0" align="center" style="border-radius:3px;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 20px 20px;width: 555px;font-weight: 300;font-size: 17px;line-height: 17px;color: #000000;">
+                                                    <h2><isprint value="${dw.web.Resource.msgf('info.authorized', 'amazon', null, pdict.order.state)}" encoding="on" /></h2>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 20px 20px;width: 555px;font-weight: 700;font-size: 22px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${dw.web.Resource.msg('title.summary', 'amazon', null)}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 20px 20px 10px 20px;width: 555px;font-weight: 700;font-size: 17px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${dw.web.Resource.msg('title.payment.date', 'amazon', null)}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 0px 20px;width: 555px;font-weight: 300;font-size: 14px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${pdict.order.lastModified.toString()}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 35px 20px 10px 20px;width: 555px;font-weight: 700;font-size: 17px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${dw.web.Resource.msg('title.charge.amount', 'amazon', null)}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 0px 20px;width: 555px;font-weight: 300;font-size: 14px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${pdict.order.amount}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 35px 20px 10px 20px;width: 555px;font-weight: 700;font-size: 17px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${dw.web.Resource.msg('title.amazon.pay.id', 'amazon', null)}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 0px 20px;width: 555px;font-weight: 300;font-size: 14px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${pdict.order.chargePermissionId}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 35px 20px 10px 20px;width: 555px;font-weight: 700;font-size: 17px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${dw.web.Resource.msg('title.merchant.order.id', 'amazon', null)}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 0px 20px;width: 555px;font-weight: 300;font-size: 14px;line-height: 17px;color: #000000;">
+                                                    <isprint value="${pdict.order.orderId}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="margin: 0px;padding: 40px 20px;width: 555px;font-weight: 300;font-size: 14px;line-height: 17px;color: #000000;">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table width="595px" cellspacing="0" cellspadding="0" border="0" align="center">
+                        <tbody>
+                            <tr>
+                                <td style="padding:20px 20px 12px 20px; width:595px">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td style="opacity:0.55; color:#C3CCD4; font-size:10px; line-height:12px; text-align:center">
+                                                    <isprint value="${dw.web.Resource.msg('do.not.reply', 'amazon', null)}" encoding="on" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>

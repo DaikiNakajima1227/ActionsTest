@@ -1,0 +1,48 @@
+'use strict';
+importPackage(dw.svc);
+
+const gmoApiErrMsgHelper = require('*/cartridge/scripts/util/gmoApiErrMsgHelper');
+
+/**
+ * @module gmoMemberServiceService
+ */
+module.exports = {
+    /**
+     * GMO Membership Registration.
+     * @param {Request} pdict Parameters
+     * @param {Object} args data.
+     * @returns {Object} Result of the service.
+     */
+    save: function (pdict) {
+        const registerUser = require('*/cartridge/scripts/gmo/gmoRegisterUserCreditCard');
+        // Execute GMO cartridge SaveMember
+        var result = registerUser.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+        
+        return result;
+    },
+    /**
+     * GMO Search Member.
+     * @param {Request} pdict Parameters
+     * @param {Object} args data.
+     * @returns {Object} Result of the service.
+     */
+    search: function (pdict) {
+        const checkExistedUser = require('*/cartridge/scripts/gmo/gmoCheckExistedUserCreditCard');
+        // Execute GMO cartridge SaveMember
+        var result = checkExistedUser.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+
+        if (!pdict.CheckExistedUser) {
+            return { serverErrors: '該当情報はありません', error: true };
+        }
+        
+        return result;
+    }
+}

@@ -1,0 +1,7 @@
+<isif condition="${require('dw/system/Site').getCurrent().getCustomPreferenceValue("amzPayEnabled")}">
+    <div amazonpay-type="checkout" amazonpay-uid="${require('dw/util/UUIDUtils').createUUID()}"></div>
+
+    <isinclude template="resources/appresources"/>
+    <isinclude template="common/amazonPay/amazonPaySDK" />
+    <script src="${URLUtils.staticURL('/js/amazonPay.js')}"></script>
+</isif>

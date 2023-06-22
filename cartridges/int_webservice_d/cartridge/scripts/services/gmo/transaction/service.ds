@@ -1,0 +1,63 @@
+'use strict';
+importPackage(dw.svc);
+
+const gmoApiErrMsgHelper = require('*/cartridge/scripts/util/gmoApiErrMsgHelper');
+const Site = require('dw/system/Site');
+
+/**
+ * @module gmoTransactionServiceService
+ */
+module.exports = {
+    /**
+     * GMO Trade Registration API.
+     * @param {Object} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    entry: function (pdict) {
+        const entryTran = require('*/cartridge/scripts/gmo/gmoEntryTranCreditCard');
+        const isAuthMode = Site.getCurrent().getCustomPreferenceValue("gmo_authorization_mode_only");
+
+        pdict.TdFlag = pdict.is3DS ? "2" : "0";
+        pdict.JobCd = isAuthMode ? 'AUTH' : 'CAPTURE';
+        const result = entryTran.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true };
+        }
+        
+        return result;
+    },
+    /**
+     * GMO Settlement Execution for JobCd.
+     * @param {Object} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    execute: function (pdict) {
+        const execTran = require('*/cartridge/scripts/gmo/gmoExecTranCreditCard');
+        const execTranAuth = require('*/cartridge/scripts/gmo/gmoExecTranAuthCreditCard');
+        const isAuthMode = Site.getCurrent().getCustomPreferenceValue("gmo_authorization_mode_only");
+
+        const result = isAuthMode ? execTranAuth.execute(pdict) : execTran.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true } ;
+        }
+        
+        return result;
+    },
+    /**
+     * GMO Secure Transaction.
+     * @param {Object} pdict Parameters
+     * @returns {Object} Result of the service.
+     */
+    secureTrans: function (pdict) {
+        const secureTrans = require('*/cartridge/scripts/gmo/gmoSecureTranCreditCard');
+        const result = secureTrans.execute(pdict);
+        if(result.error) {
+            const serverErrors = gmoApiErrMsgHelper.getErrors(result.ErrInfo);
+            return { serverErrors, error: true } ;
+        }
+        
+        return result;
+    }
+}

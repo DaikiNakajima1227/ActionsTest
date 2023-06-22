@@ -1,0 +1,22 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const Request = require('*/cartridge/scripts/services/subsc/Request'); // eslint-disable-line no-unused-vars
+const callback = require('*/cartridge/scripts/services/subsc/oAuth/callback');
+/**
+ * @module subscriptionsListService
+ */
+module.exports = {
+    /** */
+    getToken: function(request, param) {
+        const serviceName = constants.subsc.oauth.token;
+        const service = LocalServiceRegistry.createService(serviceName, callback.getToken);
+
+        request.normalizeUrl(service.getURL(), null);
+        request.generateHeaders();
+        request.generateOauthInfo();
+
+        return service.call(request);
+    }
+}

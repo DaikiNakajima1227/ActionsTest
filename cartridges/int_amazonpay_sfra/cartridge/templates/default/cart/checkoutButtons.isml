@@ -1,0 +1,18 @@
+<div class="mb-sm-3">
+    <a <isif condition="${require('dw/system/Site').getCurrent().getCustomPreferenceValue("enableSFRAv6_1_0")}">
+            href="${URLUtils.https('Checkout-Begin')}"
+        <iselse/>
+            href="${URLUtils.https('Checkout-Login')}"
+        </isif>
+        class="btn btn-primary btn-block checkout-btn ${pdict.valid.error ? 'disabled' : ''}"
+        role="button" aria-pressed="true">
+        ${Resource.msg('button.checkout','cart',null)}
+    </a>
+</div>
+
+<iscomment> Amazon Pay Button </iscomment>
+<isif condition="${require('dw/system/Site').getCurrent().getCustomPreferenceValue("amzPayEnabled")}">
+    <div class="amazonpay-wrap mb-sm-3">
+        <isinclude template="common/amazonPay/amazonPayButton" />
+    </div>
+</isif>

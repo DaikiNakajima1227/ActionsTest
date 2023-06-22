@@ -1,0 +1,15 @@
+<div class="payment-details">
+    <isloop items="${pdict.order.billing.payment.selectedPaymentInstruments}" var="payment">
+        <isif condition="${payment.paymentMethod === 'CREDIT_CARD'}">
+            <isinclude template="checkout/billing/paymentOptions/creditCardSummary" />
+        </isif>
+        <isif condition="${payment.paymentMethod === 'AMAZON_PAY'}">
+            <div class="amazon_pay-option">
+                <span><isprint value="${payment.paymentDescriptor}" encoding="on" /></span>
+                <isif condition="${pdict.currentStage !== null}">
+                    <span class="change-payment">${Resource.msg('change.payment.button', 'amazon', null)}</span>
+                </isif>
+            </div>
+        </isif>
+    </isloop>
+</div>

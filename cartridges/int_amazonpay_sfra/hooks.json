@@ -1,0 +1,16 @@
+{
+    "hooks": [
+        {
+            "name": "app.payment.processor.amazon_pay",
+            "script": "./cartridge/scripts/hooks/payment/processor/amazon_pay"
+        },
+        {
+            "name": "app.payment.form.processor.amazon_pay",
+            "script": "./cartridge/scripts/hooks/payment/processor/amazon_pay_form_processor"
+        },
+        {
+            "name": "app.payment.processor.basic_credit",
+            "script": "./cartridge/scripts/hooks/payment/processor/basic_credit"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+<isdecorate template="common/layout/page">
+    <isset name="amzPayEnabled" value="${require('dw/system/Site').getCurrent().getCustomPreferenceValue("amzPayEnabled")}" scope="page" />
+
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addCss('/css/login.css');
+        assets.addJs('/js/login.js');
+    </isscript>
+
+    <isif condition="${pdict.amzError}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <isprint value="${pdict.errorMessage}" encoding="on" />
+        </div>
+    </isif>
+
+    <div class="hero slant-down login-banner">
+        <h1 class="page-title">${Resource.msg('header.hero.image.login', 'login', null)}</h1>
+    </div>
+    <div class="container login-page">
+        <!---Breadcrumbs--->
+        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+        <div class="row justify-content-center equal-height">
+            <div class="col-sm-8 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="login-form-nav">
+                            <isinclude template="account/components/navTabs" />
+                            <div class="tab-content">
+                                <div class="tab-pane ${pdict.navTabValue === 'login' ? 'active' : ''}" id="login" role="tabpanel" aria-labelledby="login-tab">
+                                    <isinclude template="account/components/loginForm" />
+                                    <isinclude template="account/password/requestPasswordResetModal"/>
+                                    <isinclude template="account/components/oauth" />
+
+                                    <iscomment> Amazon Pay Button </iscomment>
+                                    <isif condition="${amzPayEnabled}">
+                                        <div class="btn-block amazonpay-wrap">
+                                            <isinclude template="common/amazonPay/amazonSignInButton" />
+                                        </div>
+                                    </isif>
+                                </div>
+                                <div class="tab-pane ${pdict.navTabValue === "register" ? 'active' : ''}" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                    <isinclude template="account/components/registerForm" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-6">
+                <div class="card">
+                    <isinclude template="account/components/trackOrderForm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</isdecorate>

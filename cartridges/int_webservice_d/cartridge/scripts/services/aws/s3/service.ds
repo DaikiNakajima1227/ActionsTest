@@ -1,0 +1,20 @@
+'use strict';
+importPackage(dw.svc);
+
+const constants = require('*/cartridge/scripts/services/externalServicesConstants');
+const Request = require('*/cartridge/scripts/services/aws/Request'); // eslint-disable-line no-unused-vars
+const callback = require('*/cartridge/scripts/services/aws/s3/callback');
+/**
+ * @module AWS S3
+ */
+module.exports = {
+    upload: function(request, args) {
+        const serviceName = constants.amazon.storage.upload;
+        const service = LocalServiceRegistry.createService(serviceName, callback.upload);
+
+        request.normalizeUrl(service.getURL(), args.key);
+        request.generateHeaders();
+        request.setData(args.payload);
+        return service.call(request);
+    },
+}

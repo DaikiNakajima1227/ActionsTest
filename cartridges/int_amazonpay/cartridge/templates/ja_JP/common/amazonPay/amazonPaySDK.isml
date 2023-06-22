@@ -1,0 +1,1 @@
+<input id="amazon-sdk" type="hidden" data-sdk="https://static-fe.payments-amazon.com/checkout.js" />

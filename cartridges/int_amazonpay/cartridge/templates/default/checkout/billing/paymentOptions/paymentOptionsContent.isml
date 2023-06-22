@@ -1,0 +1,7 @@
+<isloop items="${pdict.order.billing.payment.applicablePaymentMethods}" var="paymentOption">
+    <isif condition="${paymentOption.ID === 'CREDIT_CARD'}">
+        <isinclude template="checkout/billing/paymentOptions/creditCardContent" />
+    <iselseif condition="${paymentOption.ID === "AMAZON_PAY"}" />
+        <isinclude template="checkout/billing/paymentOptions/amazonPayContent" />
+    </isif>
+</isloop>

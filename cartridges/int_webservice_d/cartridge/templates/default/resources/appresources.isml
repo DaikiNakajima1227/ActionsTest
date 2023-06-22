@@ -1,0 +1,14 @@
+<iscontent type="text/javascript" charset="UTF-8" compact="true"/>
+<isscript>
+    var amazonPayUtils = require('*/cartridge/scripts/util/amazonPayUtils.js');
+</isscript>
+<script type="text/javascript" charset="UTF-8" compact="true">
+    (function(){
+        window.AmazonURLs = ${JSON.stringify(amazonPayUtils.getURLs())};
+        window.AmazonSitePreferences = ${JSON.stringify(amazonPayUtils.getPreferences(request, session))};
+        window.AmazonSignInPayload = ${JSON.stringify(amazonPayUtils.generateAmazonSignInPayload())};
+        window.AmazonSignInSignature = ${JSON.stringify(amazonPayUtils.generateAmazonButtonSignature(amazonPayUtils.generateAmazonSignInPayload()))};
+        window.AmazonPayPayload = ${JSON.stringify(amazonPayUtils.generateAmazonPayPayload())};
+        window.AmazonPaySignature = ${JSON.stringify(amazonPayUtils.generateAmazonButtonSignature(amazonPayUtils.generateAmazonPayPayload()))};
+    }());
+</script>

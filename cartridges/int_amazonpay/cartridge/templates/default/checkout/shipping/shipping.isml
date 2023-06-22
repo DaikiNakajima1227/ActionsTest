@@ -1,0 +1,39 @@
+<div class="shipping-section">
+    <div class="single-shipping">
+        <isset name="shippingModel" value="${pdict.order.shipping[0]}" scope="page" />
+        <isset name="shipmentLoopState" value="${null}" scope="page" />
+        <isset name="lineItem" value="${null}" scope="page" />
+        <div class="card" data-shipment-uuid="${shippingModel.UUID}">
+            <div class="card-header">
+                <isif condition="${pdict.order.amzPayRedirectURL}">
+                    <h2 class="pull-left card-header-custom">${Resource.msg('heading.checkout.shipping', 'checkout', null)}</h2>
+                    <span class="edit-shipping-first pull-right">${Resource.msg('action.edit.step', 'checkout', null)}</span>
+                <iselse>
+                    <h2 class="card-header-custom">${Resource.msg('heading.checkout.shipping', 'checkout', null)}</h2>
+                </isif>
+            </div>
+
+            <div class="shipping-error"></div>
+
+            <isif condition="${empty(pdict.order.amzPayRedirectURL)}">
+                <isinclude template="checkout/shipping/multiShipCheckbox" />
+            </isif>
+
+            <isinclude template="checkout/shipping/shipmentCard" />
+        </div>
+    </div>
+
+    <div class="multi-shipping">
+        <isloop items="${pdict.order.shipping}" var="shippingModel" status="shipmentLoopState">
+            <isloop items="${shippingModel.productLineItems.items}" var="lineItem">
+                <div class="card" data-shipment-uuid="${shippingModel.UUID}">
+                    <div class="card-header">
+                        <isinclude template="checkout/productCard/productShippingCard" />
+                    </div>
+
+                    <isinclude template="checkout/shipping/shipmentCard" />
+                </div>
+            </isloop>
+        </isloop>
+    </div>
+</div>

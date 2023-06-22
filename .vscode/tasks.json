@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "upload2sandbox",
+            "type": "shell",
+            "command": "npm run upload ${relativeFile}"
+        }
+    ]
+}

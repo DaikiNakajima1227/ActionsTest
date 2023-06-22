@@ -1,0 +1,50 @@
+@import "variables";
+
+.amazonpay-wrap {
+    display: flex;
+    margin-top: 10px;
+    padding: 0;
+
+    [amazonpay-type] {
+        flex: 1;
+    }
+
+    &.mini-cart {
+        padding: 0 0.65rem 0.5rem;
+    }
+
+    &.cart-page {
+        justify-content: flex-end;
+
+        @media screen and (min-width: map-get($grid-breakpoints, sm)) {
+            [amazonpay-type] {
+                max-width: 19.6rem;
+            }
+        }
+    }
+
+    &.fit-content {
+        width: fit-content;
+    }
+
+    &.clear-padding {
+        padding: 0;
+    }
+}
+
+.payment-information {
+    .payment-options {
+        display: flex;
+
+        .nav-item,
+        .nav-item > a,
+        .nav-item .amazon-pay-tab,
+        .nav-item [amazonpay-uid] {
+            background-color: white;
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
