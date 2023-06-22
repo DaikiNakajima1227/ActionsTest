@@ -27,7 +27,7 @@ jobs:
             - name: build
               run: |
                 npm run build
-                ls -l
+                echo `pwd`
                 # TIME_STAMP=`date '+%Y%m%d%H%M%S'`
                 # CODE_VERSION="release_${TIME_STAMP}"
                 # PREV_DIR=`pwd`
