@@ -30,7 +30,7 @@ jobs:
                 SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
                 SFCC_INSTANCE_URL: ${{ secrets.SFCC_INSTANCE_URL }}
               run: |
-                # npm run build
+                npm run build
                 TIME_STAMP=`date '+%Y%m%d%H%M%S'`
                 CODE_VERSION="release_gitactions_${TIME_STAMP}"
                 PREV_DIR=`pwd`
