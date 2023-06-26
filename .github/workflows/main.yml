@@ -1,1 +1,36 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
+name: SFCC CI
+
+on: [push]
+
+jobs:
+    prepare:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '12.x'
+            - name: Install dependencies
+              run: npm install
+            - name: SonarQube Scan
+              uses: sonarsource/sonarqube-scan-action@master
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+                LC_ALL: "ja_JP.UTF-8"
+            - name: unit test
+              run: npm test
+            - name: build
+              run: |
+                npm run build
+            - name: deploy
+              uses: YonglongDu/sfcc-deploy-action@main
+              with:
+                instance: ${{ secrets.SFCC_SANDBOX_API_HOST }}
+                client-id: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+                client-secret: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+                code-version: action-test_${{github.run_number}}
