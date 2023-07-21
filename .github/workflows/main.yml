@@ -91,7 +91,9 @@ jobs:
 
             # Run Acceptance test
             - name: Acceptance test
-              run: npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile chrome
+              run: |
+                  echo ${{ secrets.HOST }}
+                  npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile chrome
               env:
                   HOST: ${{ secrets.HOST }}
                   SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
