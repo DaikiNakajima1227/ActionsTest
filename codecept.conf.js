@@ -22,7 +22,7 @@ const SAUCE_USER = getDwJson().sauce_username || process.env.SAUCE_USERNAME;
 const SAUCE_KEY = getDwJson().sauce_key || process.env.SAUCE_KEY;
 
 const DEFAULT_HOST = 'https://' + getDwJson().hostname;
-const HOST = DEFAULT_HOST || process.env.HOST;
+const HOST = process.env.HOST;
 
 // Here is where you can target specific browsers/configuration to run on sauce labs.
 const userSpecificBrowsers = {
