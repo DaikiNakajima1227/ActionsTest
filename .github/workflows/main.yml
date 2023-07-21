@@ -1,33 +1,98 @@
-name: SFCC CI
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Development CI
 
 on: [push]
 
 jobs:
-    prepare:
+    build:
+        name: Deploy - Integration instance
         runs-on: ubuntu-latest
         steps:
+            # Check out the repository
             - uses: actions/checkout@v3
-            - name: Use Node.js
-              uses: actions/setup-node@v3
+
+            # Install Node.js
+            - uses: actions/setup-node@v3
               with:
                   node-version: '12.x'
-            - name: Install dependencies
-              run: npm install
-            - name: SonarQube Scan
-              uses: sonarsource/sonarqube-scan-action@master
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-                LC_ALL: "ja_JP.UTF-8"
-            - name: unit test
-              run: npm test
-            - name: build
-              run: |
-                npm build
-            - name: deploy
-              uses: YonglongDu/sfcc-deploy-action@main
+
+            - name: Get npm cache directory
+              id: npm-cache-dir
+              shell: bash
+              run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
+            # Cache node_modules
+            - uses: actions/cache@v3
+              id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
               with:
-                instance: ${{ secrets.SFCC_SANDBOX_API_HOST }}
-                client-id: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
-                client-secret: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
-                code-version: action-test_${{github.run_number}}
+                  path: ${{ steps.npm-cache-dir.outputs.dir }}
+                  key: node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: node-
+
+            # Summed up SFRA installment(install/init/build) with cache
+            - if: steps.npm-cache.outputs.cache-hit != 'true'
+              run: npm run pipeline:setup:project
+            - run: npm run pipeline:init:sfra
+
+            # Todo: configurations for lint
+            #- run: npm run lint
+
+            # npm install, build
+            - name: npm install, build.
+              run: |
+                  npm install
+                  npm run build
+
+            # Cache sonar scanner
+            # - uses: actions/cache@v3
+            #   id: sonar_scanner_cache_id
+            #   env:
+            #       cache-name: cache-sonar-scanner
+            #   with:
+            #       path: '/opt/sonar-scanner/.sonar/cache'
+            #       key: build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+            # - name: SonarQube Scan
+            #   uses: sonarsource/sonarqube-scan-action@master
+            #   env:
+            #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            #       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+            #       LC_ALL: 'ja_JP.UTF-8'
+
+            # # Run unit test
+            # - name: unit test
+            #   run: npm test
+
+            # Upload data and code
+            - name: deploy
+              run: node codeUpload.js
+              env:
+                  SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
+                  SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+                  SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+                  CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
+
+            # # Upload metadata
+            # - name: metadata deploy
+            #   run: node metadataUpload.js
+            #   env:
+            #       SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
+            #       SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+            #       SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+            #       SFCC_METADATA_NAME: metadata
+            #       SFCC_METADATA_INTERVALCOUNT: 10
+            #       SFCC_METADATA_INTERVALTIME: 3000
+
+            # # Run Integration test
+            # - name: Integration test
+            #   run: npm run test:integration -- --baseUrl ${{ secrets.SFCC_SANDBOX_API_HOST }}
+
+            # Run Acceptance test
+            - name: Acceptance test
+              run: npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile chrome
+              env:
+                  HOST: ${{ secrets.HOST }}
+                  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+                  SAUCE_KEY: ${{ secrets.SAUCE_KEY }}
