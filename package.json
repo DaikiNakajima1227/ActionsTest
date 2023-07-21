@@ -1,29 +1,16 @@
 {
-    "name": "sfcc-assets",
-    "version": "1.0.0",
-    "description": "CITEST",
+    "name": "sfra",
+    "version": "6.3.0",
+    "description": "Storefront Reference Architecture",
     "main": "index.js",
     "engines": {
         "node": ">=4.0"
     },
     "scripts": {
-        "compile:scss:base": "sgmf-scripts --compile css --cartridgeName app_storefront_base",
-        "compile:scss:custom": "sgmf-scripts --compile css --cartridgeName int_account_d",
-        "compile:js:base:dev": "cross-env NODE_ENV=development sgmf-scripts --compile js --cartridgeName app_storefront_base",
-        "compile:js:base:prod": "cross-env NODE_ENV=production sgmf-scripts --compile js --cartridgeName app_storefront_base",
-        "compile:js:custom:dev": "cross-env NODE_ENV=development sgmf-scripts --compile js --cartridgeName int_account_d",
-        "compile:js:custom:prod": "cross-env NODE_ENV=production sgmf-scripts --compile js --cartridgeName int_account_d",
-        "compile:fonts": "node bin/Makefile compileFonts",
-        "uploadCartridge": "sgmf-scripts --uploadCartridge",
-        "uploadCustomCartridge": "sgmf-scripts --uploadCartridge int_webservice_d && sgmf-scripts --uploadCartridge int_amazonpay && sgmf-scripts --uploadCartridge int_amazonpay_sfra",
-        "uploadBaseCartridge": "sgmf-scripts --uploadCartridge app_storefront_base && sgmf-scripts --uploadCartridge modules && sgmf-scripts --uploadCartridge bm_app_storefront_base",
-        "upload": "sgmf-scripts --upload",
-        "build": "npm run compile:js:base:dev && npm run compile:fonts && npm run compile:scss:base",
-        "build:all": "git pull && npm run compile:js:custom:dev && npm run compile:scss:custom && npm run uploadCustomCartridge",
         "test": "sgmf-scripts --test test/unit/**/*.js",
         "cover": "sgmf-scripts --cover 'test/unit'",
         "test:integration": "sgmf-scripts --integration 'test/integration/**/*.js'",
-        "test:acceptance:custom": "npx codeceptjs run --plugins retryFailedStep --profile",
+        "test:acceptance:custom": "npx codeceptjs run --plugins retryFailedStep --profile chrome",
         "test:acceptance:deep": "npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile",
         "test:acceptance:smoke": "npx codeceptjs run --plugins retryFailedStep --grep @happyPath --profile",
         "test:acceptance:pagedesigner": "npx codeceptjs run --plugins retryFailedStep --grep @pageDesigner --profile",
@@ -34,6 +21,11 @@
         "test:acceptance:multibrowsers": "npx codeceptjs run-multiple multibrowsers --plugins retryFailedStep --profile",
         "test:acceptance:report": "./node_modules/.bin/allure serve test/acceptance/report",
         "bdd:snippets": "./node_modules/.bin/codeceptjs bdd:snippets --path",
+        "compile:scss": "sgmf-scripts --compile css --cartridgeName int_amazonpay",
+        "compile:js": "cross-env NODE_ENV=production sgmf-scripts --compile js --cartridgeName int_amazonpay",
+        "compile:js:dev": "cross-env NODE_ENV=development sgmf-scripts --compile js --cartridgeName int_amazonpay",
+        "compile:fonts": "node bin/Makefile compileFonts",
+        "build": "npm run compile:js && npm run compile:fonts && npm run compile:scss",
         "lint": "npm run lint:css && npm run lint:js",
         "lint:css": "sgmf-scripts --lint css",
         "lint:js": "sgmf-scripts --lint js",
@@ -41,10 +33,17 @@
         "lint:isml": "./node_modules/.bin/isml-linter",
         "build:isml": "./node_modules/.bin/isml-linter --build",
         "fix:isml": "./node_modules/.bin/isml-linter --autofix",
+        "upload": "sgmf-scripts --upload",
+        "uploadCartridge": "sgmf-scripts --uploadCartridge app_storefront_base && sgmf-scripts --uploadCartridge modules && sgmf-scripts --uploadCartridge bm_app_storefront_base",
         "watch": "sgmf-scripts --watch",
         "watch:static": "sgmf-scripts --watch static",
         "release": "node bin/Makefile release --",
-        "ci_deploy": "node .github/workflows/scripts/deploy.js"
+        "pipeline:build:sfra": "cd ./node_modules/sfra-repo && npm install && npm run build",
+        "pipeline:setup:project": "npm install && npm run pipeline:build:sfra",
+        "pipeline:init:sfra": "cp -r -f ./node_modules/sfra-repo/cartridges `pwd`"
+    },
+    "dependency": {
+        "sfra-repo": "https://github.com/YonglongDu/storefront-reference-architecture"
     },
     "repository": {
         "type": "git",
@@ -75,7 +74,6 @@
         "codeceptjs-saucehelper": "^1.4.0",
         "codeceptjs-saucelabs": "^2.0.6",
         "codeceptjs-shared": "^2.0.6",
-        "cross-env": "^7.0.3",
         "css-loader": "^1.0.1",
         "debug": "^4.1.1",
         "deepmerge": "^3.3.0",
@@ -110,22 +108,18 @@
         "url": "^0.11.0",
         "wdio-sauce-service": "^0.4.14",
         "webdriverio": "^5.14.5",
-        "webpack": "^4.46.0",
         "xml2js": "^0.4.22"
     },
     "dependencies": {
         "bootstrap": "^4.6.1",
         "cleave.js": "^1.5.3",
+        "cross-env": "^7.0.3",
         "flag-icon-css": "^2.9.0",
         "font-awesome": "^4.7.0",
         "jquery": "^3.5.1",
-        "jquery-match-height": "^0.7.2",
-        "jquery-ui": "^1.13.2",
-        "jquery-validation": "^1.19.5",
-        "moment": "^2.29.4",
+        "rsync": "^0.6.1",
         "sfcc-ci": "^2.11.0",
-        "slick-carousel": "^1.8.1",
-        "svgxuse": "^1.2.6"
+        "sfra-repo": "git+https://github.com/YonglongDu/storefront-reference-architecture.git"
     },
     "browserslist": [
         "last 2 versions",
@@ -136,8 +130,5 @@
         "presets": [
             "env"
         ]
-    },
-    "paths": {
-        "base": "./cartridges/app_storefront_base/"
     }
 }
