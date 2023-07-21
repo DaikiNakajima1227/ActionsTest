@@ -56,7 +56,12 @@ let conf = {
         REST: {},
         WebDriver: {
             url: HOST,
-            waitForTimeout: 10000
+            waitForTimeout: 10000,
+            desiredCapabilities:{
+                chromeOptions: {
+                    args: [ "--headless", "--disable-gpu", "--window-size=1920,1080", "--no-sandbox" ]
+                }
+            }
         }
     },
     plugins: {
