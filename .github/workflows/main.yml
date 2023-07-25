@@ -98,8 +98,10 @@ jobs:
             #       HOST: ${{ secrets.HOST }}
             #       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             #       SAUCE_KEY: ${{ secrets.SAUCE_KEY }}
-            
+
             - name: Create an Issue
               uses: JasonEtco/create-an-issue@v2
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                filename: .github/ISSUE_TEMPLATE/bug_report.md
