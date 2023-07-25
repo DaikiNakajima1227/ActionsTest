@@ -61,18 +61,18 @@ jobs:
             #       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
             #       LC_ALL: 'ja_JP.UTF-8'
 
-            # # Run unit test
-            # - name: unit test
-            #   run: npm test
+            # Run unit test
+            - name: unit test
+              run: npm test
 
-            # Upload data and code
-            - name: deploy
-              run: node codeUpload.js
-              env:
-                  SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
-                  SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
-                  SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
-                  CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
+            # # Upload data and code
+            # - name: deploy
+            #   run: node codeUpload.js
+            #   env:
+            #       SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
+            #       SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+            #       SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+            #       CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
 
             # # Upload metadata
             # - name: metadata deploy
@@ -90,11 +90,16 @@ jobs:
             #   run: npm run test:integration -- --baseUrl ${{ secrets.SFCC_SANDBOX_API_HOST }}
 
             # Run Acceptance test
-            - name: Acceptance test
-              run: |
-                  echo ${{ secrets.HOST }}
-                  npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile chrome
+            # - name: Acceptance test
+            #   run: |
+            #       echo ${{ secrets.HOST }}
+            #       npx codeceptjs run --plugins retryFailedStep --grep '(?=.*)^(?!.*@mobile)^(?!.*@tablet)^(?!.*@pageDesigner)' --profile chrome
+            #   env:
+            #       HOST: ${{ secrets.HOST }}
+            #       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+            #       SAUCE_KEY: ${{ secrets.SAUCE_KEY }}
+            
+            - name: Create an Issue
+              uses: JasonEtco/create-an-issue@v2
               env:
-                  HOST: ${{ secrets.HOST }}
-                  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-                  SAUCE_KEY: ${{ secrets.SAUCE_KEY }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
