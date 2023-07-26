@@ -29,9 +29,7 @@ jobs:
               with:
                   path: ${{ steps.npm-cache-dir.outputs.dir }}
                   key: node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                    node-${{ hashFiles('**/package-lock.json') }}
-                    node-
+                  restore-keys: node-
 
             # Summed up SFRA installment(install/init/build) with cache
             - if: steps.npm-cache.outputs.cache-hit != 'true'
