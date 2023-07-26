@@ -18,6 +18,8 @@ jobs:
               with:
                   node-version: '12.x'
 
+            - uses: snnaplab/delete-branch-cache-action@v1
+            
             - name: Get npm cache directory
               id: npm-cache-dir
               shell: bash
