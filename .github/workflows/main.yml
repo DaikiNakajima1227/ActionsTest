@@ -34,7 +34,9 @@ jobs:
             # Summed up SFRA installment(install/init/build) with cache
             - if: steps.npm-cache.outputs.cache-hit != 'true'
               run: npm run pipeline:setup:project
-            - run: npm run pipeline:init:sfra
+            - run: |
+                  echo 'ls -a'
+                  npm run pipeline:init:sfra
 
             # Todo: configurations for lint
             #- run: npm run lint
