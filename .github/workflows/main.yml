@@ -32,7 +32,7 @@ jobs:
                   restore-keys: node-
 
             # Summed up SFRA installment(install/init/build) with cache
-            - if: steps.npm-cache.outputs.cache-hit != 'true'
+            - if: steps.npm-cache.outputs.cache-hit != 'false'
               run: npm run pipeline:setup:project
             - run: |
                   echo `ls -a`
@@ -46,6 +46,12 @@ jobs:
               run: |
                   npm install
                   npm run build
+
+            - uses: actions/cache/save@v3
+              id: cache
+              with:
+                  path: ${{ steps.npm-cache-dir.outputs.dir }}
+                  key: node-${{ hashFiles('**/package-lock.json') }}
 
             # Cache sonar scanner
             # - uses: actions/cache@v3
