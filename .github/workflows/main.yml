@@ -35,7 +35,7 @@ jobs:
             - if: steps.npm-cache.outputs.cache-hit != 'true'
               run: npm run pipeline:setup:project
             - run: |
-                  echo 'ls -a'
+                  echo `ls -a`
                   npm run pipeline:init:sfra
 
             # Todo: configurations for lint
