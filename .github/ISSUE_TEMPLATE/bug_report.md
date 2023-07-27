@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is. env.cache-name={{ env.CACHE_NAME }}
+A clear and concise description of what the bug is. env.cache-name={{ env.cache_name }}
 
 **To Reproduce**
 Steps to reproduce the behavior:
