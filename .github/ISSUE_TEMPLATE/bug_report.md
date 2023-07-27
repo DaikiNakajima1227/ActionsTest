@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: build job Failed {{ date | date('dddd, MMMM Do') }}
 labels: 'bug'
 assignees: ''
-
 ---
 
 **Describe the bug**
