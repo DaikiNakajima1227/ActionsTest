@@ -124,5 +124,5 @@ jobs:
                 filename: .github/ISSUE_TEMPLATE/bug_report.md
                 assignees: DaikiNakajima1227
                 milestone: 1
-                update_existing: true
+                update_existing: false
                 search_existing: all
