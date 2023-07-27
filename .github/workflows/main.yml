@@ -75,6 +75,11 @@ jobs:
             #       LC_ALL: 'ja_JP.UTF-8'
 
             # Run unit test
+            - name: unit test1
+              id: unittest
+              run: npm test
+
+            # Run unit test
             - name: unit test
               id: unit_test
               run: npm test
@@ -120,7 +125,6 @@ jobs:
               uses: JasonEtco/create-an-issue@v2
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                CACHE_NAME: ${{ vars.CACHE_NAME }}
                 ENV_ERROR_MSG: ${{ env.ENV_ERROR_MSG }}
               with:
                 filename: .github/ISSUE_TEMPLATE/bug_report.md
