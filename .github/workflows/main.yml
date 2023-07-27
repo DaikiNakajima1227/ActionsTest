@@ -119,10 +119,10 @@ jobs:
               uses: JasonEtco/create-an-issue@v2
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                CACHE_NAME: $CACHE_NAME
+                CACHE_NAME: ${{ env.CACHE_NAME }}
               with:
                 filename: .github/ISSUE_TEMPLATE/bug_report.md
                 assignees: DaikiNakajima1227
                 milestone: 1
                 update_existing: false
-                search_existing: all
+                search_existing: open
