@@ -75,15 +75,15 @@ jobs:
             #       LC_ALL: 'ja_JP.UTF-8'
 
             # Run unit test
-            - name: unit test1
-              id: unittest
-              run: npm test
-
-            # Run unit test
             - name: unit test
               id: unit_test
               run: npm test
-            - if: failure()
+
+            - name: unit test outcome
+              run: echo ${{ steps.unit_test.outcome }}
+
+            - name: unit test error handling
+              if: ${{ steps.unit_test.outcome == 'failure' }}
               run: echo "ENV_ERROR_MSG=unit test failed." >> $GITHUB_ENV
 
             # Upload data and code
@@ -129,7 +129,6 @@ jobs:
               with:
                 filename: .github/ISSUE_TEMPLATE/bug_report.md
                 assignees: DaikiNakajima1227
-                milestone: 1
                 update_existing: true
                 search_existing: open
 
