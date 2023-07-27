@@ -118,6 +118,8 @@ jobs:
       needs: [build]
       if: failure()
       steps:
+            # Check out the repository
+            - uses: actions/checkout@v3
             - name: Create an Issue
               uses: JasonEtco/create-an-issue@v2
               env:
