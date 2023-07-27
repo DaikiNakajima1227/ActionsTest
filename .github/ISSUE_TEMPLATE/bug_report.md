@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: build job Failed
+title: build job Failed {{ date | date('YYYY') }}/{{ date | date('MM') }}/{{ date | date('DD') }}
 labels: 'bug'
 assignees: ''
 ---

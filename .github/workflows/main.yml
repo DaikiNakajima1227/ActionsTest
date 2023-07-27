@@ -80,6 +80,7 @@ jobs:
               run: npm test
 
             - name: unit test outcome
+              if: failure()
               run: echo ${{ steps.unit_test.outcome }}
 
             - name: unit test error handling
