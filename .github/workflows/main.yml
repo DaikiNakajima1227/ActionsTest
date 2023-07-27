@@ -35,8 +35,8 @@ jobs:
               env: 
                 CACHE_NAME: ${{ vars.CACHE_NAME }}
               run: |
-                echo `$CACHE_NAME`
-                echo `${{ env.CACHE_NAME }}`
+                echo $CACHE_NAME
+                echo ${{ env.CACHE_NAME }}
 
             # Summed up SFRA installment(install/init/build) with cache
             # - if: steps.npm-cache.outputs.cache-hit != 'false'
