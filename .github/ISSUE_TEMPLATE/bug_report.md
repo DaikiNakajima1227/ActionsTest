@@ -1,13 +1,13 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: build job Failed {{ date | date('dddd, MMMM Do') }}
+title: build job Failed
 labels: 'bug'
 assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is. env.cache-name={{ env.CACHE_NAME }}
+A clear and concise description of what the bug is {{ env.ENV_ERROR_MSG }}.
 
 **To Reproduce**
 Steps to reproduce the behavior:
