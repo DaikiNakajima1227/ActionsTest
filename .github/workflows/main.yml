@@ -32,7 +32,7 @@ jobs:
                   restore-keys: node-
 
             # Summed up SFRA installment(install/init/build) with cache
-            - if: steps.npm-cache.outputs.cache-hit != 'true'
+            - if: steps.npm-cache.outputs.cache-hit != 'false'
               run: npm run pipeline:setup:project
             - run: npm run pipeline:init:sfra
 
