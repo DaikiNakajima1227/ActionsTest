@@ -31,25 +31,32 @@ jobs:
                   key: node-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: node-
 
+            - name: test
+              env: 
+                CACHE_NAME: ${{ env.CACHE_NAME }}
+              run: |
+                echo `$CACHE_NAME`
+                echo `${{ env.CACHE_NAME }}`
+
             # Summed up SFRA installment(install/init/build) with cache
-            - if: steps.npm-cache.outputs.cache-hit != 'false'
-              run: npm run pipeline:setup:project
-            - run: npm run pipeline:init:sfra
+            # - if: steps.npm-cache.outputs.cache-hit != 'false'
+            #   run: npm run pipeline:setup:project
+            # - run: npm run pipeline:init:sfra
 
             # Todo: configurations for lint
             #- run: npm run lint
 
             # npm install, build
-            - name: npm install, build.
-              run: |
-                  npm install
-                  npm run build
+            # - name: npm install, build.
+            #   run: |
+            #       npm install
+            #       npm run build
 
-            - uses: actions/cache/save@v3
-              id: cache
-              with:
-                  path: ${{ steps.npm-cache-dir.outputs.dir }}
-                  key: node-${{ hashFiles('**/package-lock.json') }}
+            # - uses: actions/cache/save@v3
+            #   id: cache
+            #   with:
+            #       path: ${{ steps.npm-cache-dir.outputs.dir }}
+            #       key: node-${{ hashFiles('**/package-lock.json') }}
 
             # Cache sonar scanner
             # - uses: actions/cache@v3
@@ -72,13 +79,13 @@ jobs:
               run: npm test
 
             # Upload data and code
-            - name: deploy
-              run: node codeUpload.js
-              env:
-                  SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
-                  SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
-                  SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
-                  CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
+            # - name: deploy
+            #   run: node codeUpload.js
+            #   env:
+            #       SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
+            #       SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+            #       SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+            #       CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
 
             # # Upload metadata
             # - name: metadata deploy
@@ -105,29 +112,36 @@ jobs:
             #       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             #       SAUCE_KEY: ${{ secrets.SAUCE_KEY }}
 
-            # - name: build
-            #   run: |
-            #     echo "warning" >&2 # ビルドや自動テストの処理に置き換える
-            #   shell: bash -c "bash -e {0} 2> >(tee stderr.log >&2)"
-            # - name: checkstderrofbuild
-            #   run: test ! -s stderr.log
+            # - name: Create an Issue
+            #   uses: JasonEtco/create-an-issue@v2
+            #   env:
+            #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #     CACHE_NAME: ${{ env.CACHE_NAME }}
+            #   with:
+            #     filename: .github/ISSUE_TEMPLATE/bug_report.md
+            #     assignees: DaikiNakajima1227
+            #     milestone: 1
+            #     update_existing: true
+            #     search_existing: open
 
-    createIssue:
-      name: build failed - Create issue
-      runs-on: ubuntu-latest
-      needs: [build]
-      if: failure()
-      steps:
-            # Check out the repository
-            - uses: actions/checkout@v3
-            - name: Create an Issue
-              uses: JasonEtco/create-an-issue@v2
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                CACHE_NAME: ${{ env.CACHE_NAME }}
-              with:
-                filename: .github/ISSUE_TEMPLATE/bug_report.md
-                assignees: DaikiNakajima1227
-                milestone: 1
-                update_existing: true
-                search_existing: open
+    # createIssue:
+    #   name: build failed - Create issue
+    #   runs-on: ubuntu-latest
+    #   needs: [build]
+    #   if: failure()
+    #   steps:
+    #         # Check out the repository
+    #         - uses: actions/checkout@v3
+    #         - name: Acceptance test
+    #           run: echo `${{ jobs.build.outputs.output1 }}`
+    #         - name: Create an Issue
+    #           uses: JasonEtco/create-an-issue@v2
+    #           env:
+    #             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #             CACHE_NAME: ${{ env.CACHE_NAME }}
+    #           with:
+    #             filename: .github/ISSUE_TEMPLATE/bug_report.md
+    #             assignees: DaikiNakajima1227
+    #             milestone: 1
+    #             update_existing: true
+    #             search_existing: open

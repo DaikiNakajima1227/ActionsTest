@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: build job Failed {{ date | date('YYYY') }}/{{ date | date('MM') }}/{{ date | date('DD') }}
+title: 'build job Failed {{ date | date('YYYY') }}/{{ date | date('MM') }}/{{ date | date('DD') }}'
 labels: 'bug'
 assignees: ''
 
@@ -9,7 +9,9 @@ assignees: ''
 
 **Describe the bug**
 A clear and concise description of what the bug is. env.cache-name={{ env.CACHE_NAME }}
-
+env.CACHE_NAME
+$CACHE_NAME
+${{ env.CACHE_NAME }}
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
