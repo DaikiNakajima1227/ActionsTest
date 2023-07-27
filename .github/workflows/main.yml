@@ -69,18 +69,16 @@ jobs:
 
             # Run unit test
             - name: unit test
-              if: success()
-              # continue-on-error: true
               run: npm test
 
-            # # Upload data and code
-            # - name: deploy
-            #   run: node codeUpload.js
-            #   env:
-            #       SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
-            #       SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
-            #       SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
-            #       CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
+            # Upload data and code
+            - name: deploy
+              run: node codeUpload.js
+              env:
+                  SFCC_SANDBOX_API_HOST: ${{ secrets.SFCC_SANDBOX_API_HOST }}
+                  SFCC_OAUTH_CLIENT_ID: ${{ secrets.SFCC_OAUTH_CLIENT_ID }}
+                  SFCC_OAUTH_CLIENT_SECRET: ${{ secrets.SFCC_OAUTH_CLIENT_SECRET }}
+                  CODE_VERSION: ${{ secrets.CODE_VERSION_PREFIX }}_${{ github.run_number }}
 
             # # Upload metadata
             # - name: metadata deploy
