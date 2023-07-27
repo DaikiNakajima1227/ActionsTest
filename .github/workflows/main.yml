@@ -77,15 +77,14 @@ jobs:
             # Run unit test
             - name: unit test
               id: unit_test
+              continue-on-error: true
               run: npm test
-
-            - name: unit test outcome
-              if: failure()
-              run: echo ${{ steps.unit_test.outcome }}
 
             - name: unit test error handling
               if: ${{ steps.unit_test.outcome == 'failure' }}
-              run: echo "ENV_ERROR_MSG=unit test failed." >> $GITHUB_ENV
+              run: |
+                echo "ENV_ERROR_MSG=unit test failed." >> $GITHUB_ENV
+                exit 1
 
             # Upload data and code
             # - name: deploy
