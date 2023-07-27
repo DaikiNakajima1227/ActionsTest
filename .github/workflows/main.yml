@@ -78,7 +78,7 @@ jobs:
             - name: unit test
               id: unit_test
               run: npm test
-            - if: ${{ steps.unit_test.outcome == 'failure' }}
+            - if: failure()
               run: echo "ENV_ERROR_MSG=unit test failed." >> $GITHUB_ENV
 
             # Upload data and code
@@ -121,7 +121,7 @@ jobs:
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 CACHE_NAME: ${{ vars.CACHE_NAME }}
-                ENV_ERROR_MSG: $ENV_ERROR_MSG
+                ENV_ERROR_MSG: ${{ env.ENV_ERROR_MSG }}
               with:
                 filename: .github/ISSUE_TEMPLATE/bug_report.md
                 assignees: DaikiNakajima1227
