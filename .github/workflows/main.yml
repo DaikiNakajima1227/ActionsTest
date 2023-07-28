@@ -128,7 +128,7 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 ENV_ERROR_MSG: ${{ env.ENV_ERROR_MSG }}
               with:
-                filename: .github/ISSUE_TEMPLATE/custom.md
+                filename: .github/ISSUE_TEMPLATE/bug_report.md
                 assignees: DaikiNakajima1227
-                update_existing: true
+                update_existing: false
                 search_existing: open
