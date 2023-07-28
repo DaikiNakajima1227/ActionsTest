@@ -130,5 +130,5 @@ jobs:
               with:
                 filename: .github/ISSUE_TEMPLATE/bug_report.md
                 assignees: DaikiNakajima1227
-                update_existing: false
+                update_existing: true
                 search_existing: open
