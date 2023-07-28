@@ -130,5 +130,5 @@ jobs:
               with:
                 filename: .github/ISSUE_TEMPLATE/custom.md
                 assignees: DaikiNakajima1227
-                update_existing: true
+                update_existing: false
                 search_existing: open
